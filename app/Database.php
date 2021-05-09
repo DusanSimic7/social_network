@@ -10,7 +10,7 @@ abstract class Database{
 
     public function __construct()
     {
-        $this->dbh = new PDO("mysql:host=localhost;dbname=insta;charset=utf8mb4",'root',"123456",array(
+        $this->dbh = new PDO("mysql:host=localhost;dbname=social_net;charset=utf8mb4",'root',"123456",array(
             PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
             PDO::ATTR_PERSISTENT => false
         ));
