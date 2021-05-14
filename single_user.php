@@ -41,22 +41,21 @@ if(isset($_GET['id'])){
     <h1 class="text-center mb-0"><?php echo "$chosen_user->firstname $chosen_user->surname friends:"; ?></h1>
     <p class="text-center m-0 p-0"><i>(Chosen user)</i></p>
 
-    <div class="text-right mb-5"><span class="text-center m-0 p-0 mb-5"><i>Suggested friends:</i></span><br>
 
-    </div>
 
     <div class="row">
 
 <?php
 $array = [];
-$array2 = [];
-
+$duplicates = [];
 ?>
 
     <?php foreach ($friendsOfChosen as $friend) :   ?>
         <?php $findFriend = $user->find($friend->user2);
 
-        $array[] .= $friend->user2;
+
+
+
 
         ?>
 
@@ -74,6 +73,7 @@ $array2 = [];
 
                 <?php
 
+
                     if (!in_array($findFriend2->id, $array)) {
 
                         // I put out chosen user from friends of friends
@@ -84,6 +84,8 @@ $array2 = [];
                         //friends of friend
                         echo "<p class='text-center mb-0'><a class='text-decoration-none text-white' href='single_user.php?id=$findFriend2->id'>$findFriend2->firstname $findFriend2->surname</a></p>";
 
+
+                        $duplicates[] .= $findFriend2->id;
                     }
                 ?>
 
@@ -94,9 +96,29 @@ $array2 = [];
 
     <?php endforeach; ?>
 
+<?php
 
+$dupl= [];
+$numbers = array_count_values($duplicates);
+
+foreach ($numbers as $key => $value){
+    if($value > 1){
+            $dupl[] = $key;
+    }
+}
+
+?>
     </div>
+    <div class="text-center mb-5"><span class="text-center m-0 p-0 mb-5"><i>Suggested friends:</i></span><br><br>
+        <?php
+        foreach ($dupl as $number) {
+                $suggestion_friend = $user->find($number);
 
+               echo $suggestion_friend->firstname." ".$suggestion_friend->surname.', '.$suggestion_friend->age. ' age<br>';
+            }
+
+        ?>
+    </div>
 </div>
 
 
